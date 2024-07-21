@@ -1,0 +1,11 @@
+{
+  "todos": [
+    {
+      "id": 1,
+      "task": "Create JSON Server",
+      "description": "",
+      "eta": "",
+      "status": false
+    }
+  ]
+}
