@@ -1,10 +1,14 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Todo } from '../api/model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TodoService {
+  /** HTTP service */
+  private http = inject(HttpClient);
+
   /** Signal: todoList to save and fetch data */
   todoList = signal<Todo[]>([
     {
@@ -32,7 +36,9 @@ export class TodoService {
    * @param data Todo
    */
   public addNewTodo(data: Todo) {
-    this.todoList.update((list) => [...list, { ...data, id: list.length }]);
+    const newItem = { ...data, id: this.todoList().length + 1 };
+    this.todoList.update((list) => [newItem, ...list]);
+    this.updateJSONServer(newItem);
   }
 
   /**
@@ -56,5 +62,13 @@ export class TodoService {
     this.todoList.update((todos) =>
       todos.filter((todo) => todo.id !== data.id),
     );
+  }
+
+  /**
+   * Save Data to JSON server
+   * @param data Todo
+   */
+  protected async updateJSONServer(data: Todo) {
+    this.http.post(`http://localhost:3000/todos`, data).subscribe();
   }
 }

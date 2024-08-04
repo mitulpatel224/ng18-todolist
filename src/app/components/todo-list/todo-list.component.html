@@ -1,18 +1,20 @@
-<section class="flex flex-col gap-3 overflow-hidden p-3">
+<section class="relative flex h-full flex-col gap-3 overflow-hidden">
   <div class="flex items-center justify-between rounded-lg bg-accent p-5">
     <h1 class="text-3xl text-white">
-      Todo List ({{ totalPending() }}/{{ todoList().length }})
+      Todo List ({{ totalDone() }}/{{ todoList().length }})
     </h1>
-    <button class="border-bac rounded-lg bg-primary px-5 py-3 text-white">
-      + Add
-    </button>
   </div>
   <div>
+    <app-todo-form (addNewItem)="handleAddNew($event)" />
+  </div>
+  <hr class="border-1 mt-2 border-primary bg-primary" />
+  <div class="h-full overflow-y-auto pe-2">
     @for (todo of todoList(); track todo.id) {
       <app-todo-item
         [todoData]="todo"
         [showMore]="$first"
         (markCheck)="handleMarkCheck(todo)"
+        (delete)="handleDelete(todo)"
       ></app-todo-item>
     }
   </div>

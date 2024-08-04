@@ -26,6 +26,9 @@ export class TodoItemComponent {
   /** Output: Event to perform action on task status change */
   @Output() markCheck = new EventEmitter<void>(true);
 
+  /** Output: Event to perform action on task delete */
+  @Output() delete = new EventEmitter<void>(true);
+
   /**
    * Toggle Description on action menu
    * @param flag Boolean

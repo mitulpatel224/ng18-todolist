@@ -4,7 +4,7 @@
   [class]="[!todoData().status ? 'border-accent' : 'border-gray-300']"
 >
   <h3
-    class="row-start-1 shrink-0 justify-self-start truncate text-ellipsis text-lg font-medium text-accent"
+    class="row-start-1 max-w-full shrink-0 justify-self-start truncate text-ellipsis text-lg font-medium text-accent"
     [class]="{ 'line-through': todoData().status }"
   >
     {{ todoData().task }}
@@ -65,7 +65,7 @@
     </button>
   }
   <!-- REMOVE ITEM FROM LIST -->
-  <button class="row-start-1 w-6 text-primary">
+  <button class="row-start-1 w-6 text-primary" (click)="delete.next()">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"

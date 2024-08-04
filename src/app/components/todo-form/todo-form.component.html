@@ -1,1 +1,36 @@
-<p>todo-form works!</p>
+<form #todoForm="ngForm" (ngSubmit)="todoForm.valid && submitForm()">
+  <div class="grid grid-cols-3 grid-rows-2 gap-0 overflow-hidden rounded-lg">
+    <textarea
+      class="col-span-full row-span-2 rounded-md border-2 border-primary p-3 text-primary"
+      rows="3"
+      placeholder="Mention your task here"
+      name="taskContent"
+      #task="ngModel"
+      [(ngModel)]="taskContent.task"
+      (change)="taskContent.task = taskContent.task.trim()"
+      required="required"
+    ></textarea>
+    <div class="col-span-full mb-2">
+      @if (task.touched || todoForm.submitted) {
+        @if (task.errors?.["required"]) {
+          <span class="text-red-400">You need to add some text here!</span>
+        }
+      }
+    </div>
+    <input
+      type="date"
+      [min]="minDate"
+      #eta="ngModel"
+      name="eta"
+      [(ngModel)]="taskContent.eta"
+      class="col-span-2 rounded-s-lg border-2 border-primary p-3 uppercase text-primary"
+      placeholder="Add it's ETA here"
+    />
+    <button
+      type="submit"
+      class="border-bac grid rounded-e-lg border-2 border-primary bg-primary px-5 py-3 text-white"
+    >
+      ADD
+    </button>
+  </div>
+</form>
