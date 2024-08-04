@@ -18,9 +18,9 @@ export class AppComponent {
   public todos: Todo[] = [];
 
   constructor(private http: HttpClient) {
-    this.http
-      .get<Todo[]>(`${environment.API}/todos`)
-      .pipe(take(1))
-      .subscribe((data) => (this.todos = data));
+    // this.http
+    //   .get<Todo[]>(`${environment.API}/todos`)
+    //   .pipe(take(1))
+    //   .subscribe((data) => (this.todos = data));
   }
 }

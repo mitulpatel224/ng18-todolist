@@ -1,4 +1,4 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, input, model, signal } from '@angular/core';
 import { Todo } from '../../api/model';
 
 @Component({
@@ -12,7 +12,7 @@ export class TodoItemComponent {
   /** Input Signal: to get and hold Todo item */
   todoData = input.required<Todo>();
 
-  showMore = signal<boolean>(false);
+  showMore = model<boolean>(false);
 
   /**
    * Toggle Description on action menu

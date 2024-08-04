@@ -14,6 +14,15 @@ export class TodoService {
       eta: '2024-07-21T19:22:00:000Z',
       status: false,
     },
+    {
+      id: 2,
+      task: 'Perform add, update, delete actions',
+      description: `Allow user to Add new item,
+      Allow user to update item with done state
+      Allow user to delete item`,
+      eta: '2024-08-04T22:00:000Z',
+      status: false,
+    },
   ]);
 
   constructor() {}
