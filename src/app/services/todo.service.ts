@@ -17,7 +17,7 @@ export class TodoService {
     this.getListOfItems()
       .pipe(take(1))
       .subscribe(
-        (res) => this.todoList.set([]),
+        (res) => this.todoList.set(res || []),
         (err) => console.error(err),
       );
   }
@@ -27,15 +27,23 @@ export class TodoService {
    * @param data Todo
    */
   public addNewTodo(data: Todo) {
-    // const newItem = { ...data, id: String(Math.floor(Math.random() * 10000)) };
     const newItem = {
       ...data,
       id: Array.from(Array(20), () =>
         Math.floor(Math.random() * 36).toString(36),
       ).join(''),
     };
+    // TODO: remove manual update
     this.todoList.update((list) => [newItem, ...list]);
-    this.addNewItem(newItem);
+
+    this.addNewItem(newItem)
+      .pipe(take(1))
+      .subscribe(
+        (_) => {
+          this.todoList.update((list) => [newItem, ...list]);
+        },
+        (err) => console.error(err),
+      );
   }
 
   /**
@@ -45,13 +53,20 @@ export class TodoService {
    */
   public markAsDone(data: Todo, flag: boolean = true) {
     const newData = { ...data, status: flag };
+
+    // TODO: remove manual update
     this.todoList.update((todos) =>
       todos.map((todo) => (todo.id === data.id ? newData : todo)),
     );
+
     this.updateItem(newData)
       .pipe(take(1))
       .subscribe(
-        (_) => {},
+        (_) => {
+          this.todoList.update((todos) =>
+            todos.map((todo) => (todo.id === data.id ? newData : todo)),
+          );
+        },
         (err) => console.error(err),
       );
   }
@@ -61,17 +76,29 @@ export class TodoService {
    * @param data Todo
    */
   public removeTodo(data: Todo) {
+    // TODO: remove manual update
     this.todoList.update((todos) =>
       todos.filter((todo) => todo.id !== data.id),
     );
+
+    this.deleteItem(data.id)
+      .pipe(take(1))
+      .subscribe(
+        (res) => {
+          this.todoList.update((todos) =>
+            todos.filter((todo) => todo.id !== data.id),
+          );
+        },
+        (err) => console.error(err),
+      );
   }
 
   /**
    * Save Data to JSON server
    * @param data Todo
    */
-  public async addNewItem(data: Todo) {
-    return this.http.post(`http://localhost:3000/todos`, data).subscribe();
+  public addNewItem(data: Todo) {
+    return this.http.post(`http://localhost:3000/todos`, data);
   }
 
   /**
@@ -82,6 +109,11 @@ export class TodoService {
     return this.http.get<Todo[]>(`http://localhost:3000/todos`);
   }
 
+  /**
+   * Update the item detail for given id
+   * @param data Todo
+   * @returns Observable<Todo>
+   */
   public updateItem(data: Todo) {
     const { status, task, description, eta } = data;
     return this.http.patch(`http://localhost:3000/todos/${data.id}`, {
@@ -90,5 +122,14 @@ export class TodoService {
       description,
       eta,
     });
+  }
+
+  /**
+   * Deletes item for the given id
+   * @param id string
+   * @returns Observable<boolean>
+   */
+  public deleteItem(id: string) {
+    return this.http.delete(`http://localhost:3000/todos/${id}`);
   }
 }
