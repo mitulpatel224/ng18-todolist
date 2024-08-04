@@ -43,6 +43,7 @@
             "production": {
               "sourceMap": false,
               "optimization": true,
+              "ssr": false,
               "budgets": [
                 {
                   "type": "initial",
