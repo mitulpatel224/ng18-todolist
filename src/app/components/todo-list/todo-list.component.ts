@@ -20,7 +20,7 @@ export class TodoListComponent {
   todoList = computed(() => this.todoService.todoList());
 
   totalDone = computed(
-    () => this.todoList().filter((todo) => todo.status === true)?.length,
+    () => this.todoList().filter((todo) => todo.status === true).length,
   );
 
   /**

@@ -2,6 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Todo } from '../api/model';
 import { HttpClient } from '@angular/common/http';
 import { take } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -98,7 +99,7 @@ export class TodoService {
    * @param data Todo
    */
   public addNewItem(data: Todo) {
-    return this.http.post(`http://localhost:3000/todos`, data);
+    return this.http.post(`${environment.API}/todos`, data);
   }
 
   /**
@@ -106,7 +107,7 @@ export class TodoService {
    * @returns Observable<Todo[]>
    */
   public getListOfItems() {
-    return this.http.get<Todo[]>(`http://localhost:3000/todos`);
+    return this.http.get<Todo[]>(`${environment.API}/todos`);
   }
 
   /**
@@ -116,7 +117,7 @@ export class TodoService {
    */
   public updateItem(data: Todo) {
     const { status, task, description, eta } = data;
-    return this.http.patch(`http://localhost:3000/todos/${data.id}`, {
+    return this.http.patch(`${environment.API}/todos/${data.id}`, {
       status,
       task,
       description,
