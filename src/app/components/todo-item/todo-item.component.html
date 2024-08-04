@@ -1,6 +1,6 @@
 <!-- GRID STRUCTURE -->
 <div
-  class="grid-cols-todo-item my-2 grid items-center justify-items-center gap-x-1 gap-y-2 rounded-md border-2 border-accent bg-white p-3"
+  class="my-2 grid grid-cols-todo-item items-center justify-items-center gap-x-1 rounded-md border-2 border-accent bg-white p-3"
   [class]="[!todoData().status ? 'border-accent' : 'border-gray-300']"
 >
   <h3
@@ -10,7 +10,8 @@
     {{ todoData().task }}
   </h3>
   <button
-    class="row-start-1 w-6 cursor-pointer text-primary"
+    class="row-start-1 w-6 cursor-pointer text-primary disabled:cursor-no-drop"
+    [disabled]="!todoData().description"
     (click)="toggleDescription(!showMore())"
   >
     <svg
@@ -81,8 +82,10 @@
       />
     </svg>
   </button>
-  @if (showMore()) {
-    <p class="col-span-4 row-start-2 justify-self-start italic text-gray-500">
+  @if (showMore() && todoData().description) {
+    <p
+      class="col-span-4 row-start-2 mt-2 justify-self-start italic text-gray-500"
+    >
       {{ todoData().description }}
     </p>
   }

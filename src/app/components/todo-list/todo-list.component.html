@@ -1,7 +1,7 @@
 <section class="relative flex h-full flex-col gap-3 overflow-hidden">
   <div class="flex items-center justify-between rounded-lg bg-accent p-5">
     <h1 class="text-3xl text-white">
-      Todo List ({{ totalDone() }}/{{ todoList().length }})
+      Todo List ({{ totalDone() }}/{{ todoList()?.length }})
     </h1>
   </div>
   <div>
@@ -16,6 +16,16 @@
         (markCheck)="handleMarkCheck(todo)"
         (delete)="handleDelete(todo)"
       ></app-todo-item>
+    } @empty {
+      <div
+        class="my-2 grid grid-cols-todo-item items-center justify-items-center gap-x-1 rounded-md bg-transparent p-3"
+      >
+        <h3
+          class="row-start-1 max-w-full shrink-0 justify-self-center truncate text-ellipsis text-lg font-medium text-primary"
+        >
+          All set, nothing to do more &nbsp; 🎉
+        </h3>
+      </div>
     }
   </div>
 </section>

@@ -5,7 +5,7 @@ import {
   ViewChild,
   viewChild,
 } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormControl, FormsModule, NgForm } from '@angular/forms';
 import { Todo } from '../../api/model';
 
 @Component({
@@ -23,30 +23,35 @@ export class TodoFormComponent {
   readonly minDate = new Date().toISOString().split('T')[0];
 
   /** Instance: taskContent */
-  taskContent = {
-    task: '',
-    eta: '',
-  };
+  taskContent = { task: '', eta: '' };
 
+  /** Element: Form instance */
   @ViewChild('todoForm') todoForm!: NgForm;
 
-  isSubmitted: boolean = false;
+  /** Element: Form Control instance */
+  @ViewChild('task') taskCtrl!: FormControl;
 
+  /**
+   * Callback: for Form submit event from template
+   */
   submitForm() {
-    const { eta = '' } = this.taskContent;
     const [task, ...description] = this.taskContent.task.split('\n');
     this.addNewItem.next({
       task,
       description: description.join(' ').trim(),
-      eta,
+      eta: this.taskContent.eta || '',
       status: false,
-      id: 0,
+      id: '0',
     });
+    // Reset form instance
     this.resetForm();
   }
 
-  /** Reset form */
+  /**
+   * Reset form
+   */
   resetForm() {
+    this.taskCtrl.reset('');
     this.todoForm.reset({ task: '', eta: '' });
   }
 }

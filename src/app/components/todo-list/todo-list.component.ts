@@ -17,7 +17,7 @@ export class TodoListComponent {
   todoService = inject(TodoService);
 
   /** Signal Input: List of Todo items */
-  todoList = this.todoService.todoList;
+  todoList = computed(() => this.todoService.todoList());
 
   totalDone = computed(
     () => this.todoList().filter((todo) => todo.status === true)?.length,

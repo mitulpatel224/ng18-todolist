@@ -1,6 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { Todo } from '../api/model';
 import { HttpClient } from '@angular/common/http';
+import { take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,35 +11,31 @@ export class TodoService {
   private http = inject(HttpClient);
 
   /** Signal: todoList to save and fetch data */
-  todoList = signal<Todo[]>([
-    {
-      id: 1,
-      task: 'Create JSON Server',
-      description: 'This is a dummy todo description to setup the placeholders',
-      eta: '2024-07-21T19:22:00:000Z',
-      status: false,
-    },
-    {
-      id: 2,
-      task: 'Perform add, update, delete actions',
-      description: `Allow user to Add new item,
-      Allow user to update item with done state
-      Allow user to delete item`,
-      eta: '2024-08-04T22:00:000Z',
-      status: false,
-    },
-  ]);
+  todoList = signal<Todo[]>([]);
 
-  constructor() {}
+  constructor() {
+    this.getListOfItems()
+      .pipe(take(1))
+      .subscribe(
+        (res) => this.todoList.set([]),
+        (err) => console.error(err),
+      );
+  }
 
   /**
    * Add new item to todo list
    * @param data Todo
    */
   public addNewTodo(data: Todo) {
-    const newItem = { ...data, id: this.todoList().length + 1 };
+    // const newItem = { ...data, id: String(Math.floor(Math.random() * 10000)) };
+    const newItem = {
+      ...data,
+      id: Array.from(Array(20), () =>
+        Math.floor(Math.random() * 36).toString(36),
+      ).join(''),
+    };
     this.todoList.update((list) => [newItem, ...list]);
-    this.updateJSONServer(newItem);
+    this.addNewItem(newItem);
   }
 
   /**
@@ -47,11 +44,16 @@ export class TodoService {
    * @param flag boolean
    */
   public markAsDone(data: Todo, flag: boolean = true) {
+    const newData = { ...data, status: flag };
     this.todoList.update((todos) =>
-      todos.map((todo) =>
-        todo.id === data.id ? { ...data, status: flag } : todo,
-      ),
+      todos.map((todo) => (todo.id === data.id ? newData : todo)),
     );
+    this.updateItem(newData)
+      .pipe(take(1))
+      .subscribe(
+        (_) => {},
+        (err) => console.error(err),
+      );
   }
 
   /**
@@ -68,7 +70,25 @@ export class TodoService {
    * Save Data to JSON server
    * @param data Todo
    */
-  protected async updateJSONServer(data: Todo) {
-    this.http.post(`http://localhost:3000/todos`, data).subscribe();
+  public async addNewItem(data: Todo) {
+    return this.http.post(`http://localhost:3000/todos`, data).subscribe();
+  }
+
+  /**
+   * Get list observable of todo-list
+   * @returns Observable<Todo[]>
+   */
+  public getListOfItems() {
+    return this.http.get<Todo[]>(`http://localhost:3000/todos`);
+  }
+
+  public updateItem(data: Todo) {
+    const { status, task, description, eta } = data;
+    return this.http.patch(`http://localhost:3000/todos/${data.id}`, {
+      status,
+      task,
+      description,
+      eta,
+    });
   }
 }

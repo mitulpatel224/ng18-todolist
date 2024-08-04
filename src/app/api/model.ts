@@ -1,5 +1,5 @@
 export type Todo = {
-  id: number;
+  id: string;
   task: string;
   description: string;
   eta: string | Date;
