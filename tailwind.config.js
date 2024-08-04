@@ -7,10 +7,9 @@ module.exports = {
         "todo-item": "1fr repeat(3,auto)",
       },
       colors: {
-        primary: "#EF5A6F",
-        background: "#FFF1DB",
-        foreground: "#D4BDAC",
-        accent: "#536493",
+        primary: "#3d405b",
+        background: "#f4f1de",
+        accent: "#e07a5f",
       },
     },
   },

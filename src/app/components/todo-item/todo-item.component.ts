@@ -1,4 +1,12 @@
-import { Component, input, model, signal } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  input,
+  model,
+  Output,
+  output,
+  signal,
+} from '@angular/core';
 import { Todo } from '../../api/model';
 
 @Component({
@@ -12,7 +20,11 @@ export class TodoItemComponent {
   /** Input Signal: to get and hold Todo item */
   todoData = input.required<Todo>();
 
+  /** Model Signal: to allow view more detail from parent component */
   showMore = model<boolean>(false);
+
+  /** Output: Event to perform action on task status change */
+  @Output() markCheck = new EventEmitter<void>(true);
 
   /**
    * Toggle Description on action menu
