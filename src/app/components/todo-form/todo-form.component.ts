@@ -35,7 +35,7 @@ export class TodoFormComponent {
    * Callback: for Form submit event from template
    */
   submitForm() {
-    event?.stopPropagation();
+    // TODO: stop propagation of form submit
     const [task, ...description] = this.taskContent.task.split('\n');
     this.addNewItem.next({
       task,
