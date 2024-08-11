@@ -23,11 +23,13 @@
         <h3
           class="row-start-1 max-w-full shrink-0 justify-self-center truncate text-ellipsis text-lg font-medium text-primary"
         >
-          All set for today &nbsp; 🎉
+          All set for today 🎉
         </h3>
       </div>
     }
-    <hr class="border-1 my-3 border-primary bg-primary" />
+    @if (doneList().length > 0) {
+      <hr class="border-1 my-3 border-primary bg-primary" />
+    }
     @for (doneItem of doneList(); track $index) {
       <app-todo-item
         [todoData]="doneItem"
@@ -35,6 +37,16 @@
         (markCheck)="handleMarkCheck(doneItem)"
         (delete)="handleDelete(doneItem)"
       ></app-todo-item>
+    } @empty {
+      <div
+        class="my-2 grid grid-cols-todo-item items-center justify-items-center gap-x-1 rounded-md bg-transparent p-3"
+      >
+        <h3
+          class="row-start-1 max-w-full shrink-0 justify-self-center truncate text-ellipsis text-lg font-medium text-primary"
+        >
+          {{ todoList().length > 0 ? "Focus on your task one by one 🏋️" : "" }}
+        </h3>
+      </div>
     }
   </div>
 </section>
