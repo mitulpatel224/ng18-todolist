@@ -7,12 +7,13 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { Todo } from '../../api/model';
+import { Todo } from '../../models/model';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-todo-item',
   standalone: true,
-  imports: [],
+  imports: [NgClass],
   templateUrl: './todo-item.component.html',
   styleUrl: './todo-item.component.scss',
 })

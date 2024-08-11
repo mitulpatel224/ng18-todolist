@@ -1,9 +1,8 @@
 import { Component, computed, inject } from '@angular/core';
+import { Todo } from '../../models/model';
 import { TodoService } from '../../services/todo.service';
-import { TodoItemComponent } from '../todo-item/todo-item.component';
-import { Todo } from '../../api/model';
-import { JsonPipe } from '@angular/common';
 import { TodoFormComponent } from '../todo-form/todo-form.component';
+import { TodoItemComponent } from '../todo-item/todo-item.component';
 
 @Component({
   selector: 'app-todo-list',
@@ -14,20 +13,24 @@ import { TodoFormComponent } from '../todo-form/todo-form.component';
 })
 export class TodoListComponent {
   /** Service: Todo service */
-  todoService = inject(TodoService);
+  private todoService = inject(TodoService);
 
   /** Signal Input: List of Todo items */
-  todoList = computed(() => this.todoService.todoList());
-
-  totalDone = computed(
-    () => this.todoList().filter((todo) => todo.status === true).length,
+  protected todoList = computed(() =>
+    this.todoService.todoList().filter((item) => !item.status),
   );
+  protected doneList = computed(
+    () => this.todoService.todoList().filter((item) => item.status) || [],
+  );
+
+  /** Signal: To calculate total completed items */
+  protected totalDone = computed(() => this.doneList().length);
 
   /**
    * Change status of an item from the list
    * @param data Todo item
    */
-  handleMarkCheck(data: Todo) {
+  protected handleMarkCheck(data: Todo) {
     this.todoService.markAsDone(data, !data.status);
   }
 
@@ -35,11 +38,15 @@ export class TodoListComponent {
    * Remove item from the list
    * @param data Todo item
    */
-  handleDelete(data: Todo) {
+  protected handleDelete(data: Todo) {
     this.todoService.removeTodo(data);
   }
 
-  handleAddNew(data: Todo) {
+  /**
+   * Adds new item to the list
+   * @param data Todo
+   */
+  protected handleAddNew(data: Todo) {
     this.todoService.addNewTodo(data);
   }
 }

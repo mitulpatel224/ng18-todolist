@@ -1,7 +1,10 @@
 <!-- GRID STRUCTURE -->
 <div
-  class="my-2 grid grid-cols-todo-item items-center justify-items-center gap-x-1 rounded-md border-2 border-accent bg-white p-3"
-  [class]="[!todoData().status ? 'border-accent' : 'border-gray-300']"
+  class="my-2 grid grid-cols-todo-item items-center justify-items-center gap-x-1 rounded-md border-2 p-3"
+  [ngClass]="{
+    'border-accent bg-white': !todoData().status,
+    'border-gray-300 bg-gray-100': todoData().status,
+  }"
 >
   <h3
     class="row-start-1 max-w-full shrink-0 justify-self-start truncate text-ellipsis text-lg font-medium text-accent"

@@ -6,7 +6,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { FormControl, FormsModule, NgForm } from '@angular/forms';
-import { Todo } from '../../api/model';
+import { Todo } from '../../models/model';
 
 @Component({
   selector: 'app-todo-form',
@@ -43,6 +43,7 @@ export class TodoFormComponent {
       eta: this.taskContent.eta || '',
       status: false,
       id: '0',
+      order: 0,
     });
     // Reset form instance
     this.resetForm();

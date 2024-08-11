@@ -1,14 +1,14 @@
-<section class="relative flex h-full flex-col gap-3 overflow-hidden">
+<section class="relative flex h-full flex-col overflow-hidden">
   <div class="flex items-center justify-between rounded-lg bg-accent p-5">
     <h1 class="text-3xl text-white">
       Todo List ({{ totalDone() }}/{{ todoList().length }})
     </h1>
   </div>
-  <div>
+  <div class="mt-3">
     <app-todo-form (addNewItem)="handleAddNew($event)" />
   </div>
-  <hr class="border-1 mt-2 border-primary bg-primary" />
-  <div class="h-full overflow-y-auto pe-2">
+  <hr class="border-1 mt-3 border-primary bg-primary" />
+  <div class="mt-3 h-full overflow-y-auto pe-2">
     @for (todo of todoList(); track todo.id) {
       <app-todo-item
         [todoData]="todo"
@@ -26,6 +26,15 @@
           All set, nothing to do more &nbsp; 🎉
         </h3>
       </div>
+    }
+    <hr class="border-1 my-3 border-primary bg-primary" />
+    @for (doneItem of doneList(); track $index) {
+      <app-todo-item
+        [todoData]="doneItem"
+        [showMore]="$first"
+        (markCheck)="handleMarkCheck(doneItem)"
+        (delete)="handleDelete(doneItem)"
+      ></app-todo-item>
     }
   </div>
 </section>
