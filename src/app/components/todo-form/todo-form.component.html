@@ -1,4 +1,4 @@
-<form #todoForm="ngForm" (ngSubmit)="todoForm.valid && submitForm()">
+<form #todoForm="ngForm" (submit)="todoForm.valid && submitForm()">
   <div class="grid grid-cols-3 grid-rows-2 gap-0 overflow-hidden rounded-lg">
     <textarea
       class="col-span-full row-span-2 rounded-md border-2 border-primary p-3 text-primary"
@@ -18,15 +18,19 @@ Use new line for description"
         }
       }
     </div>
-    <input
-      type="date"
-      [min]="minDate"
-      #eta="ngModel"
-      name="eta"
-      [(ngModel)]="taskContent.eta"
-      class="col-span-2 rounded-s-lg border-2 border-r-0 border-gray-500 p-3 uppercase text-primary"
-      placeholder="Add it's ETA here"
-    />
+    <div
+      class="col-span-2 overflow-hidden rounded-s-lg border-2 border-r-0 border-gray-500"
+    >
+      <input
+        type="date"
+        [min]="minDate"
+        #eta="ngModel"
+        name="eta"
+        [(ngModel)]="taskContent.eta"
+        class="h-full w-full p-3 uppercase text-primary"
+        placeholder="Add it's ETA here"
+      />
+    </div>
     <button
       type="submit"
       class="border-bac grid rounded-e-lg border-2 border-l-0 border-gray-500 bg-primary px-5 py-3 text-white"

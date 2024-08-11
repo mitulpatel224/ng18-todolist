@@ -1,47 +1,28 @@
 <!-- GRID STRUCTURE -->
 <div
-  class="my-2 grid grid-cols-todo-item items-center justify-items-center gap-x-1 rounded-md border-2 p-3"
+  class="my-2 grid grid-cols-todo-item items-center justify-items-center gap-x-3 rounded-md border-2 p-3"
   [ngClass]="{
     'border-accent bg-white': !todoData().status,
     'border-gray-300 bg-gray-100': todoData().status,
   }"
 >
   <h3
-    class="row-start-1 max-w-full shrink-0 justify-self-start truncate text-ellipsis text-lg font-medium text-accent"
+    class="row-start-1 max-w-full shrink-0 cursor-pointer justify-self-start truncate text-ellipsis text-lg font-medium text-accent"
     [class]="{ 'line-through': todoData().status }"
+    (click)="toggleDescription(!showMore())"
   >
     {{ todoData().task }}
   </h3>
-  <button
-    class="row-start-1 w-6 cursor-pointer text-primary disabled:cursor-no-drop"
-    [disabled]="!todoData().description"
-    (click)="toggleDescription(!showMore())"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke-width="1.5"
-      stroke="currentColor"
-      class="size-6"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"
-      />
-    </svg>
-  </button>
   <!-- MARK AS DONE -->
   @if (!todoData().status) {
-    <button (click)="markCheck.next()" class="row-start-1 w-6 text-primary">
+    <button (click)="markCheck.next()" class="row-start-1 w-6 text-gray-500">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
         stroke-width="1.5"
         stroke="currentColor"
-        class="size-6"
+        class="size-9"
       >
         <path
           stroke-linecap="round"
@@ -51,14 +32,14 @@
       </svg>
     </button>
   } @else {
-    <button (click)="markCheck.next()" class="row-start-1 w-6 text-primary">
+    <button (click)="markCheck.next()" class="row-start-1 w-6 text-gray-500">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
         stroke-width="1.5"
         stroke="currentColor"
-        class="size-6"
+        class="size-9"
       >
         <path
           stroke-linecap="round"
@@ -69,14 +50,14 @@
     </button>
   }
   <!-- REMOVE ITEM FROM LIST -->
-  <button class="row-start-1 w-6 text-primary" (click)="delete.next()">
+  <button class="row-start-1 w-6 text-gray-500" (click)="delete.next()">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
-      class="size-6"
+      class="size-9"
     >
       <path
         stroke-linecap="round"
