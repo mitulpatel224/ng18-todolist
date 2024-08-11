@@ -21,7 +21,7 @@
               "base": "docs",
               "browser": ""
             },
-            "baseHref": "ng18-todolist/",
+            "baseHref": "/ng18-todolist/",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
