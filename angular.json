@@ -18,9 +18,10 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": {
-              "base": "https://mitulpatel224.github.io/ng18-todolist/",
+              "base": "docs",
               "browser": ""
             },
+            "baseHref": "ng18-todolist/",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
