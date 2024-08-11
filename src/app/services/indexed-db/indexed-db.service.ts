@@ -41,7 +41,7 @@ export class IndexedDbService {
         const store = database.createObjectStore(IDB_NAME, {
           keyPath: 'id',
         });
-        store.index('order');
+        // store.index('order');
       },
     });
     this.iDB.addEventListener('error', (event) => {
