@@ -8,12 +8,15 @@ import {
   signal,
 } from '@angular/core';
 import { Todo } from '../../models/model';
-import { NgClass } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
+import { SwipeDirective } from '../../directives/swipe.directive';
+import { SwipeEvent } from '../../directives/swipe-core';
 
 @Component({
   selector: 'app-todo-item',
   standalone: true,
-  imports: [NgClass],
+  imports: [NgClass, HammerModule, SwipeDirective, CommonModule],
   templateUrl: './todo-item.component.html',
   styleUrl: './todo-item.component.scss',
 })
@@ -36,5 +39,12 @@ export class TodoItemComponent {
    */
   toggleDescription(flag: boolean) {
     this.showMore.update(() => flag);
+  }
+
+  onSwipeEnd({ direction, distance }: SwipeEvent) {
+    if (direction == 'x') {
+      if (distance < -60) this.delete.emit();
+      if (distance > 60) this.markCheck.emit();
+    }
   }
 }
