@@ -4,4 +4,5 @@ export type Todo = {
   description: string;
   eta: string | Date;
   status: boolean;
+  order: number;
 };
