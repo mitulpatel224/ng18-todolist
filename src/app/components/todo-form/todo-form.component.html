@@ -1,4 +1,4 @@
-<form #todoForm="ngForm" (submit)="todoForm.valid && submitForm()">
+<form #todoForm="ngForm" (submit)="submitForm()">
   <div class="grid grid-cols-3 grid-rows-2 gap-0 overflow-hidden rounded-lg">
     <textarea
       class="col-span-full row-span-2 rounded-md border-2 border-primary p-3 text-primary"
@@ -12,7 +12,7 @@ Use new line for description"
       required="required"
     ></textarea>
     <div class="col-span-full mb-2">
-      @if (task.touched || todoForm.submitted) {
+      @if (task.dirty || isSubmitted) {
         @if (task.errors?.["required"]) {
           <span class="text-red-400">You need to add some text here!</span>
         }

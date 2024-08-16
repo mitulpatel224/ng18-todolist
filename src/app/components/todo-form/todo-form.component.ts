@@ -24,6 +24,7 @@ export class TodoFormComponent {
 
   /** Instance: taskContent */
   taskContent = { task: '', eta: '' };
+  isSubmitted = false;
 
   /** Element: Form instance */
   @ViewChild('todoForm') todoForm!: NgForm;
@@ -35,6 +36,9 @@ export class TodoFormComponent {
    * Callback: for Form submit event from template
    */
   submitForm() {
+    this.isSubmitted = true;
+    if (this.todoForm.invalid) return;
+    
     // TODO: stop propagation of form submit
     const [task, ...description] = this.taskContent.task.split('\n');
     this.addNewItem.next({
@@ -53,6 +57,7 @@ export class TodoFormComponent {
    * Reset form
    */
   resetForm() {
+    this.isSubmitted = false;
     this.taskCtrl.reset('');
     this.todoForm.reset({ task: '', eta: '' });
   }
