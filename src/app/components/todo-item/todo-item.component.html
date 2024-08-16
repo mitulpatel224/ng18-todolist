@@ -38,7 +38,7 @@
     }
   </div>
   <div
-    class="z-10 grid min-w-full snap-center grid-cols-todo-item items-center justify-items-center gap-x-3 rounded-md border-2 p-3"
+    class="z-10 grid min-w-full snap-center grid-cols-todo-item items-center justify-items-center rounded-md border-2 p-3"
     [ngClass]="{
       'border-accent bg-white': !todoData().status,
       'border-gray-300 bg-gray-100': todoData().status,
@@ -53,11 +53,13 @@
     >
       {{ todoData().task }}
     </h3>
+    <!-- ETA -->
+    <span class="row-start-1 text-slate-400">{{todoData().eta | date:etaFormat}}</span>
     <!-- MARK AS DONE -->
     @if (!todoData().status) {
       <button
         (click)="markCheck.next()"
-        class="row-start-1 hidden w-6 text-gray-500 lg:block"
+        class="ms-2 row-start-1 hidden text-gray-500 lg:block"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +79,7 @@
     } @else {
       <button
         (click)="markCheck.next()"
-        class="row-start-1 hidden w-6 text-gray-500 lg:block"
+        class="ms-2 row-start-1 hidden text-gray-500 lg:block"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +99,7 @@
     }
     <!-- REMOVE ITEM FROM LIST -->
     <button
-      class="row-start-1 hidden w-6 text-gray-500 lg:block"
+      class="ms-2 row-start-1 hidden text-gray-500 lg:block"
       (click)="delete.next()"
     >
       <svg
