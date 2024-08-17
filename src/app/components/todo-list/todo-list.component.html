@@ -1,53 +1,76 @@
 <section class="relative flex h-full flex-col overflow-hidden">
+  <!-- FOCUS MODE TIMER -->
+  @defer {
+    @if (focusMode) {
+      <app-focus-mode (close)="toggleTimerMode()"></app-focus-mode>
+    }
+  }
   <div class="flex items-center justify-between rounded-lg bg-accent p-5">
     <div class="flex items-end">
-      <h1 class="text-3xl text-white">Work items</h1>
-      <span class="ms-2 text-l text-white"> ({{ totalDone() }}/{{ todoList().length }}) </span>
+      <h1 class="text-xl text-white sm:text-3xl">Done</h1>
+      <span class="text-l ms-2 text-white">
+        ({{ totalDone() }}/{{ todoList().length }})
+      </span>
+    </div>
+    <div>
+      <!-- TIMER -->
+      @defer {
+        <app-timer
+          class="cursor-pointer"
+          (click)="toggleTimerMode()"
+        ></app-timer>
+      }
     </div>
   </div>
-  <div class="mt-3">
-    <app-todo-form (addNewItem)="handleAddNew($event)" />
-  </div>
+  @defer {
+    <div class="mt-3">
+      <app-todo-form (addNewItem)="handleAddNew($event)" />
+    </div>
+  }
   <hr class="border-1 mt-3 border-primary bg-primary" />
   <div class="mt-3 h-full overflow-y-auto pe-2">
-    @for (todo of todoList(); track todo.id) {
-      <app-todo-item
-        [todoData]="todo"
-        [showMore]="$first"
-        (markCheck)="handleMarkCheck(todo)"
-        (delete)="handleDelete(todo)"
-      ></app-todo-item>
-    } @empty {
-      <div
-        class="my-2 grid grid-cols-todo-item items-center justify-items-center gap-x-1 rounded-md bg-transparent p-3"
-      >
-        <h3
-          class="row-start-1 max-w-full shrink-0 justify-self-center truncate text-ellipsis text-lg font-medium text-primary"
+    @defer {
+      @for (todo of todoList(); track todo.id) {
+        <app-todo-item
+          [todoData]="todo"
+          [showMore]="$first"
+          (markCheck)="handleMarkCheck(todo)"
+          (delete)="handleDelete(todo)"
+        ></app-todo-item>
+      } @empty {
+        <div
+          class="my-2 grid grid-cols-todo-item items-center justify-items-center gap-x-1 rounded-md bg-transparent p-3"
         >
-          All set for today 🎉
-        </h3>
-      </div>
-    }
-    @if (doneList().length > 0) {
-      <hr class="border-1 my-3 border-primary bg-primary" />
-    }
-    @for (doneItem of doneList(); track $index) {
-      <app-todo-item
-        [todoData]="doneItem"
-        [showMore]="$first"
-        (markCheck)="handleMarkCheck(doneItem)"
-        (delete)="handleDelete(doneItem)"
-      ></app-todo-item>
-    } @empty {
-      <div
-        class="my-2 grid grid-cols-todo-item items-center justify-items-center gap-x-1 rounded-md bg-transparent p-3"
-      >
-        <h3
-          class="row-start-1 max-w-full shrink-0 justify-self-center truncate text-ellipsis text-lg font-medium text-primary"
+          <h3
+            class="row-start-1 max-w-full shrink-0 justify-self-center truncate text-ellipsis text-lg font-medium text-primary"
+          >
+            All set for today 🎉
+          </h3>
+        </div>
+      }
+      @if (doneList().length > 0) {
+        <hr class="border-1 my-3 border-primary bg-primary" />
+      }
+      @for (doneItem of doneList(); track $index) {
+        <app-todo-item
+          [todoData]="doneItem"
+          [showMore]="$first"
+          (markCheck)="handleMarkCheck(doneItem)"
+          (delete)="handleDelete(doneItem)"
+        ></app-todo-item>
+      } @empty {
+        <div
+          class="my-2 grid grid-cols-todo-item items-center justify-items-center gap-x-1 rounded-md bg-transparent p-3"
         >
-          {{ todoList().length > 0 ? "Focus on your task one by one 🏋️" : "" }}
-        </h3>
-      </div>
+          <h3
+            class="row-start-1 max-w-full shrink-0 justify-self-center truncate text-ellipsis text-lg font-medium text-primary"
+          >
+            {{
+              todoList().length > 0 ? "Focus on your task one by one 🏋️" : ""
+            }}
+          </h3>
+        </div>
+      }
     }
   </div>
 </section>
