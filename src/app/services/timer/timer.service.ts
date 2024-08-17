@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, EventEmitter, Injectable, signal } from '@angular/core';
 import { TimerKey, TimerModel, TimerOption } from '../../models/model';
 
 @Injectable()
@@ -7,15 +7,28 @@ export class TimerService {
   interval!: NodeJS.Timeout | null;
 
   /** Instance: Default Time */
-  defaultTime: TimerKey = 20;
+  defaultTime = signal<TimerKey>(20);
 
   /** Signal: To check if Timer is currently running */
   running = signal<boolean>(false);
 
+  timerFinish = new EventEmitter<void>();
+
   /** Signal: Active Timer time */
   activeTime = signal<TimerModel>(
-    TimerOption.get(this.defaultTime) as TimerModel,
+    TimerOption.get(this.defaultTime()) as TimerModel,
   );
+
+  /** Signal: Updated Time string */
+  timerString = computed(() => {
+    const { hour, minute, second } = this.activeTime();
+    return hour
+      ? hour.toLocaleString('en-US', { minimumIntegerDigits: 2 }) + ':'
+      : '' +
+          minute.toLocaleString('en-US', { minimumIntegerDigits: 2 }) +
+          ':' +
+          second.toLocaleString('en-US', { minimumIntegerDigits: 2 });
+  });
 
   /**
    * Allow user to reset the timer
@@ -45,9 +58,7 @@ export class TimerService {
     this.clearInterval();
 
     const today = new Date();
-
     const { hour = 0, minute, second } = this.activeTime();
-
     const countDownDateTime = new Date();
     countDownDateTime.setHours(today.getHours() + hour);
     countDownDateTime.setMinutes(today.getMinutes() + minute);
@@ -68,8 +79,11 @@ export class TimerService {
     const today = new Date();
     const timeLeft = countDownDateTime.getTime() - today.getTime();
 
+    // Check if timer is over
     if (countDownDateTime.getTime() < today.getTime()) {
       this.clearInterval();
+      // Emit timer finish
+      this.timerFinish.next();
       return { hour: 0, minute: 0, second: 0 };
     }
 

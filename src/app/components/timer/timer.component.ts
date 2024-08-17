@@ -18,29 +18,20 @@ import { TimerModel } from '../../models/model';
   styleUrl: './timer.component.scss',
 })
 export class TimerComponent {
+  /** Event: To handle Click */
   @Output() click = new EventEmitter<void>();
+  /** Instance: Timer service */
   timerService = inject(TimerService);
-  running: boolean = false;
 
-  timeString = computed(() => {
-    const { hour, minute, second } = this.timerService.activeTime();
-    return hour
-      ? hour.toLocaleString('en-US', { minimumIntegerDigits: 2 }) + ':'
-      : '' +
-          minute.toLocaleString('en-US', { minimumIntegerDigits: 2 }) +
-          ':' +
-          second.toLocaleString('en-US', { minimumIntegerDigits: 2 });
-  });
+  /** Signal: To determine timer running state */
+  running = this.timerService.running;
 
-  onResetTimer(time = this.timerService.defaultTime) {
-    this.timerService.resetTimer(time);
-  }
+  /** Signal: Updated Time string */
+  timeString = this.timerService.timerString;
 
-  onPlay(play: boolean = true) {
-    this.running = !this.running;
-    this.timerService.startTimer(play);
-  }
-
+  /**
+   * Handle click event to emit further
+   */
   onClick() {
     this.click.next();
   }

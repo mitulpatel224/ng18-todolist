@@ -16,28 +16,37 @@ import { TimerService } from '../../services/timer/timer.service';
   styleUrl: './focus-mode.component.scss',
 })
 export class FocusModeComponent {
+  /** Event: to emit close */
   @Output() close = new EventEmitter<void>();
+  /** Instance: Timer Service */
   timerService = inject(TimerService);
-  running=this.timerService.running
+  /** Signal: To determine timer running state */
+  running = this.timerService.running;
 
-  timeString = computed(() => {
-    const { hour, minute, second } = this.timerService.activeTime();
-    return hour
-      ? hour.toLocaleString('en-US', { minimumIntegerDigits: 2 }) + ':'
-      : '' +
-          minute.toLocaleString('en-US', { minimumIntegerDigits: 2 }) +
-          ':' +
-          second.toLocaleString('en-US', { minimumIntegerDigits: 2 });
-  });
+  /** Signal: Updated Time string */
+  timeString = this.timerService.timerString;
 
-  onResetTimer(time = this.timerService.defaultTime) {
+  /**
+   * Resets the default-time and timer for the given time key
+   * @param time TimerKey @default TimerService.defaultTime
+   */
+  onResetTimer(time = this.timerService.defaultTime()) {
+    this.timerService.defaultTime.set(time);
     this.timerService.resetTimer(time);
   }
 
+  /**
+   * Play or Pause the timer
+   * @param play boolean @default true
+   */
   onPlay(play: boolean = true) {
     this.timerService.startTimer(play);
   }
 
+  /**
+   * Handles the close button
+   * Emit close event to parent
+   */
   onClose() {
     this.close.next();
   }
