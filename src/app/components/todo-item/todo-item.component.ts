@@ -19,6 +19,7 @@ export class TodoItemComponent {
   /** Model Signal: to allow view more detail from parent component */
   showMore = model<boolean>(false);
 
+  /** Date format for task ETA */
   etaFormat: 'MMM dd' | 'MMM dd, YYYY' = 'MMM dd';
 
   /** Output: Event to perform action on task status change */
