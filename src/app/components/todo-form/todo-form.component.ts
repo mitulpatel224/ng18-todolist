@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Todo } from '../../models/model';
+import { TrimDirective } from '../../directives/trim/trim.directive';
 
 
 /**
@@ -32,7 +33,7 @@ const minDateValidator = (minDate: Date) => {
 @Component({
   selector: 'app-todo-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,TrimDirective],
   templateUrl: './todo-form.component.html',
   styleUrl: './todo-form.component.scss',
 })

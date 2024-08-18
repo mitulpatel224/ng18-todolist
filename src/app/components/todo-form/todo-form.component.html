@@ -8,6 +8,7 @@ Use new line for description"
       name="taskContent"
       formControlName="task"
       required="required"
+      appTrim
     ></textarea>
     <div class="col-span-full mb-2">
       @if (ctrl("task").dirty || isSubmitted) {
