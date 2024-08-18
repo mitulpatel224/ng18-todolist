@@ -1,9 +1,9 @@
 import { CommonModule, DatePipe, NgClass } from '@angular/common';
 import { Component, EventEmitter, input, model, Output } from '@angular/core';
 import { HammerModule } from '@angular/platform-browser';
-import { SwipeEvent } from '../../directives/swipe-core';
-import { SwipeDirective } from '../../directives/swipe.directive';
 import { Todo } from '../../models/model';
+import { SwipeEvent } from '../../directives/swipe/swipe-core';
+import { SwipeDirective } from '../../directives/swipe/swipe.directive';
 
 @Component({
   selector: 'app-todo-item',
